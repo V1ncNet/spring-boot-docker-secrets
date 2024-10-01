@@ -3,6 +3,7 @@ package de.vinado.boot.secrets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.logging.DeferredLogFactory;
+import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.StandardEnvironment;
 
@@ -92,6 +93,8 @@ class EnvironmentPropertyIndexSupplierTest {
 
     @Test
     void configuredSuffix_shouldIndexNothing() {
+        environment = spy(new TestEnvironment());
+
         createIndex("_FILE");
 
         assertNotNull(index);
@@ -122,5 +125,9 @@ class EnvironmentPropertyIndexSupplierTest {
     private void assertEntry(String key, String value) {
         assertTrue(index.containsKey(key));
         assertEquals(value, index.get(key));
+    }
+
+
+    private static class TestEnvironment extends AbstractEnvironment {
     }
 }
